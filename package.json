@@ -1,0 +1,15 @@
+{
+  "name": "admin.hiedu.com.vn",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Hi-Edu/admin.hiedu.com.vn.git",
+  "author": "Donghyun Kim <peterkimzz69@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt generate"
+  },
+  "dependencies": {
+    "nuxt": "^2.15.4"
+  }
+}
