@@ -7,6 +7,9 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
+      colors: {
+        gray: colors.trueGray
+      },
       fontFamily: {
         sans: [
           'Inter',

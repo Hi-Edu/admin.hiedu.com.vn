@@ -1,3 +1,5 @@
+const IS_PROD = process.env.NODE_ENV === 'production'
+
 export default {
   target: 'static',
   server: { port: 3002 },
@@ -17,6 +19,27 @@ export default {
       { rel: 'stylesheet', href: 'https://rsms.me/inter/inter.css' }
     ]
   },
+  loading: {
+    color: '#2972b9',
+    height: '3px'
+  },
+  env: process.env,
+  router: {
+    middleware: ['me']
+  },
+  plugins: [
+    { src: '~/plugins/logger' },
+    { src: '~/plugins/axios' },
+  ],
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/dayjs'
+  ],
   buildModules: ['@nuxtjs/tailwindcss'],
-  
+  components: true,
+  axios: {
+    baseURL: IS_PROD ? `https://api.hiedu.com.vn` : `http://localhost:3000`,
+    credentials: true,
+    debug: true
+  }
 }
