@@ -1,8 +1,6 @@
 <template>
   <div>
-    <header>
-      <h1 class="font-bold text-white text-3xl">Edit Magazines</h1>
-    </header>
+    <page-header title="Edit Magazine" />
 
     <main class="py-20">
       <div v-if="magazine">

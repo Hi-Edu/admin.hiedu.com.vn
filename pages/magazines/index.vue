@@ -1,13 +1,11 @@
 <template>
   <div>
-    <header>
-      <h1 class="font-bold text-white text-3xl">Magazines</h1>
-    </header>
+    <page-header title="Magazines" />
 
-    <main class="py-10">
+    <main>
       <div class="text-right">
         <button
-          class="transition-all inline-flex items-center py-2.5 px-4 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg"
+          class="transition-all inline-flex items-center py-2 px-3 text-sm bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg"
           @click="Create"
         >
           <svg
@@ -22,44 +20,76 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span class="ml-1">Create new</span>
+          <span class="ml-0.5">Create new</span>
         </button>
       </div>
 
-      <table v-if="magazines.count" class="mt-4 w-full table-auto">
-        <thead class="bg-gray-700 bg-opacity-50 text-sm text-gray-400">
-          <th class="py-2 px-3 text-left">Title</th>
-          <th class="py-2 px-3 text-left">Category</th>
-          <th class="py-2 px-3 text-left">Published</th>
-          <th class="py-2 px-3 text-right">Created</th>
-          <th class="py-2 px-3 text-right">Updated</th>
-        </thead>
-        <tbody>
-          <tr
-            v-for="magazine in magazines.rows"
-            :key="magazine.uuid"
-            class="border-b border-gray-700 text-sm text-gray-100"
-          >
-            <td class="py-3 px-3 text-left">{{ magazine.title }}</td>
-            <td class="py-3 px-3 text-left">{{ magazine.category }}</td>
-            <td class="py-3 px-3 text-left">{{ magazine.is_published }}</td>
-            <td class="py-3 px-3 text-right">
-              {{
-                $dayjs(magazine.created_at).format(
-                  "YYYY년 MM월 DD일 hh시 mm분 ss초"
-                )
-              }}
-            </td>
-            <td class="py-3 px-3 text-right">
-              {{
-                $dayjs(magazine.updated_at).format(
-                  "YYYY년 MM월 DD일 hh시 mm분 ss초"
-                )
-              }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div>
+        <div v-if="$fetchState.pending">
+          Loading..
+        </div>
+        <div v-else>
+          <div v-if="$fetchState.error">
+            Error
+          </div>
+          <div v-else>
+            <div v-if="!magazines.count">
+              No result.
+            </div>
+            <table v-else class="mt-4 w-full table-auto">
+              <thead class="bg-gray-700 bg-opacity-50 text-sm text-gray-400">
+                <th class="py-2 px-3 text-left">Title</th>
+                <th class="py-2 px-3 text-left">Category</th>
+                <th class="py-2 px-3 text-left">Published</th>
+                <th class="py-2 px-3 text-right">Created</th>
+                <th class="py-2 px-3 text-right">Updated</th>
+                <th class="py-2 px-3 text-right"></th>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="magazine in magazines.rows"
+                  :key="magazine.uuid"
+                  class="transition-colors border-b border-gray-700 text-sm text-gray-100 hover:bg-gray-900"
+                >
+                  <td class="py-3 px-3 text-left">{{ magazine.title }}</td>
+                  <td class="py-3 px-3 text-left">{{ magazine.category }}</td>
+                  <td class="py-3 px-3 text-left">
+                    {{ magazine.is_published }}
+                  </td>
+                  <td class="py-3 px-3 text-right">
+                    {{
+                      $dayjs(magazine.created_at).format(
+                        "YYYY년 MM월 DD일 hh시 mm분 ss초"
+                      )
+                    }}
+                  </td>
+                  <td class="py-3 px-3 text-right">
+                    {{
+                      $dayjs(magazine.updated_at).format(
+                        "YYYY년 MM월 DD일 hh시 mm분 ss초"
+                      )
+                    }}
+                  </td>
+                  <td class="py-3 px-3 text-right">
+                    <button
+                      class="transition-colors py-0.5 px-2 text-sm rounded-lg border border-gray-700 bg-gray-700 hover:bg-gray-500"
+                      @click="OnEdit(magazine.uuid)"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      class="transition-colors py-0.5 px-2 text-sm rounded-lg border border-gray-700 bg-transparent hover:bg-gray-500"
+                      @click="OnRemove(magazine.uuid)"
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </template>
@@ -88,6 +118,18 @@ export default {
           name: "magazines-edit",
           query: { uuid: magazine.uuid }
         });
+      } catch (err) {}
+    },
+    OnEdit(uuid) {
+      this.$router.push({
+        name: "magazines-edit",
+        query: { uuid }
+      });
+    },
+    async OnRemove(uuid) {
+      try {
+        await this.$store.dispatch("magazines/DeleteByUuid", uuid);
+        this.$fetch();
       } catch (err) {}
     }
   }
