@@ -1,5 +1,5 @@
 <template>
-  <nav class="w-60 p-4 bg-opacity-20 bg-gray-700 h-screen">
+  <nav class="fixed left-0 w-60 p-4 bg-gray-100 h-screen">
     <section>
       <brand-logo class="w-28" />
     </section>
@@ -9,7 +9,7 @@
         <n-link
           to="/"
           exact
-          class="flex items-center transition font-semibold w-full my-1.5 py-2 px-2.5 hover:text-gray-300 hover:bg-gray-700 rounded-lg"
+          class="flex items-center transition font-semibold w-full my-1.5 py-2 px-2.5 hover:text-gray-800 hover:bg-gray-300 rounded-lg"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@
       <li>
         <n-link
           to="/users"
-          class="flex items-center transition font-semibold w-full my-1.5 py-2 px-2.5 hover:text-gray-300 hover:bg-gray-700 rounded-lg"
+          class="flex items-center transition font-semibold w-full my-1.5 py-2 px-2.5 hover:text-gray-800 hover:bg-gray-300 rounded-lg"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +47,7 @@
       <li>
         <n-link
           to="/academies"
-          class="flex items-center transition font-semibold w-full my-1.5 py-2 px-2.5 hover:text-gray-300 hover:bg-gray-700 rounded-lg"
+          class="flex items-center transition font-semibold w-full my-1.5 py-2 px-2.5 hover:text-gray-800 hover:bg-gray-300 rounded-lg"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@
       <li>
         <n-link
           to="/magazines"
-          class="flex items-center transition font-semibold w-full my-1.5 py-2 px-2.5 hover:text-gray-300 hover:bg-gray-700 rounded-lg"
+          class="flex items-center transition font-semibold w-full my-1.5 py-2 px-2.5 hover:text-gray-800 hover:bg-gray-300 rounded-lg"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +88,7 @@
     <section>
       <button
         @click="Logout"
-        class="text-xs px-3 py-1.5 border border-gray-600 rounded-lg shadow-sm font-semibold"
+        class="text-xs px-3 py-1.5 border border-gray-300 shadow-sm rounded-lg shadow-sm font-semibold"
       >
         Logout
       </button>
@@ -113,11 +113,11 @@ export default {
 
 <style lang="postcss" scoped>
 ul a {
-  @apply text-gray-500;
-  @apply bg-transparent;
+  @apply text-gray-400;
 }
 ul a.nuxt-link-active {
-  @apply text-gray-50;
-  @apply bg-gray-700;
+  @apply text-gray-900;
+  @apply bg-gray-300;
+  @apply shadow-sm;
 }
 </style>

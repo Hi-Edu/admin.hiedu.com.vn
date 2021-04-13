@@ -32,10 +32,11 @@ export const actions = {
 
     return this.$axios(options)
   },
-  UpdateByUuid(_, uuid) {
+  UpdateByUuid(_, { uuid, data }) {
     const options = {
       method: 'PUT',
       url: `/v0/magazines/${uuid}`,
+      data
     }
 
     return this.$axios(options)

@@ -1,6 +1,6 @@
 <template>
   <header class="mb-12">
-    <h1 class="font-bold text-white text-3xl">{{ title }}</h1>
+    <h1 class="font-bold text-gray-900 text-3xl">{{ title }}</h1>
     <slot />
   </header>
 </template>

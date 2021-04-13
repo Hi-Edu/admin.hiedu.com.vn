@@ -5,7 +5,7 @@
     <main>
       <div class="text-right">
         <button
-          class="transition-all inline-flex items-center py-2 px-3 text-sm bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg"
+          class="transition-all inline-flex items-center py-2 px-3 text-sm bg-cyan-600 hover:bg-cyan-700 text-white shadow-sm font-semibold rounded-lg"
           @click="Create"
         >
           <svg
@@ -20,7 +20,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span class="ml-0.5">Create new</span>
+          <span class="ml-0.5">새 매거진</span>
         </button>
       </div>
 
@@ -36,34 +36,64 @@
             <div v-if="!magazines.count">
               No result.
             </div>
-            <table v-else class="mt-4 w-full table-auto">
-              <thead class="bg-gray-700 bg-opacity-50 text-sm text-gray-400">
-                <th class="py-2 px-3 text-left">Title</th>
-                <th class="py-2 px-3 text-left">Category</th>
-                <th class="py-2 px-3 text-left">Published</th>
-                <th class="py-2 px-3 text-right">Created</th>
-                <th class="py-2 px-3 text-right">Updated</th>
+            <table
+              v-else
+              class="mt-4 w-full table-fixed border border-gray-50 shadow-sm"
+            >
+              <thead class="bg-gray-200 text-xs text-gray-500">
+                <th class="py-2 px-3 text-left w-80">제목</th>
+                <th class="py-2 px-3 text-left">카테고리</th>
+                <th class="py-2 px-3 text-center">공개</th>
+                <th class="py-2 px-3 text-right">생성일</th>
+                <th class="py-2 px-3 text-right">마지막 수정일</th>
                 <th class="py-2 px-3 text-right"></th>
               </thead>
               <tbody>
                 <tr
                   v-for="magazine in magazines.rows"
                   :key="magazine.uuid"
-                  class="transition-colors border-b border-gray-700 text-sm text-gray-100 hover:bg-gray-900"
+                  class="transition-colors border-b border-gray-200 text-sm hover:bg-gray-100"
                 >
-                  <td class="py-3 px-3 text-left">{{ magazine.title }}</td>
-                  <td class="py-3 px-3 text-left">{{ magazine.category }}</td>
-                  <td class="py-3 px-3 text-left">
-                    {{ magazine.is_published }}
+                  <td class="py-3 px-3 text-left font-semibold w-80">
+                    {{ magazine.title }}
                   </td>
-                  <td class="py-3 px-3 text-right">
+                  <td class="py-3 px-3 text-left">{{ magazine.category }}</td>
+                  <td class="py-3 px-3 text-center">
+                    <svg
+                      v-if="magazine.is_published"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="inline-block h-5 w-5 text-green-500"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <svg
+                      v-else
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="inline-block h-5 w-5 text-gray-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </td>
+                  <td class="py-3 px-3 text-xs text-gray-500 text-right">
                     {{
                       $dayjs(magazine.created_at).format(
                         "YYYY년 MM월 DD일 hh시 mm분 ss초"
                       )
                     }}
                   </td>
-                  <td class="py-3 px-3 text-right">
+                  <td class="py-3 px-3 text-xs text-gray-500 text-right">
                     {{
                       $dayjs(magazine.updated_at).format(
                         "YYYY년 MM월 DD일 hh시 mm분 ss초"
@@ -72,16 +102,16 @@
                   </td>
                   <td class="py-3 px-3 text-right">
                     <button
-                      class="transition-colors py-0.5 px-2 text-sm rounded-lg border border-gray-700 bg-gray-700 hover:bg-gray-500"
+                      class="transition-colors py-0.5 px-1.5 text-sm rounded-lg shadow-sm text-gray-800 border border-gray-400 bg-gray-50 hover:bg-gray-100"
                       @click="OnEdit(magazine.uuid)"
                     >
-                      Edit
+                      수정
                     </button>
                     <button
-                      class="transition-colors py-0.5 px-2 text-sm rounded-lg border border-gray-700 bg-transparent hover:bg-gray-500"
+                      class="transition-colors py-0.5 px-1.5 text-sm rounded-lg shadow-sm border border-red-400 text-red-500 hover:bg-red-200"
                       @click="OnRemove(magazine.uuid)"
                     >
-                      Remove
+                      삭제
                     </button>
                   </td>
                 </tr>
@@ -128,6 +158,10 @@ export default {
     },
     async OnRemove(uuid) {
       try {
+        if (!confirm("정말 삭제하시겠습니까? 이 행동은 되돌릴 수 없습니다.")) {
+          return;
+        }
+
         await this.$store.dispatch("magazines/DeleteByUuid", uuid);
         this.$fetch();
       } catch (err) {}
