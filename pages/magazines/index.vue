@@ -3,26 +3,7 @@
     <page-header title="Magazines" />
 
     <main>
-      <div class="text-right">
-        <button
-          class="transition-all inline-flex items-center py-2 px-3 text-sm bg-cyan-600 hover:bg-cyan-700 text-white shadow-sm font-semibold rounded-lg"
-          @click="Create"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span class="ml-0.5">새 매거진</span>
-        </button>
-      </div>
+      <TableCreateButton @click="Create">새 매거진</TableCreateButton>
 
       <div>
         <div v-if="$fetchState.pending">
@@ -36,29 +17,25 @@
             <div v-if="!magazines.count">
               No result.
             </div>
-            <table
-              v-else
-              class="mt-4 w-full table-fixed border border-gray-50 shadow-sm"
-            >
-              <thead class="bg-gray-200 text-xs text-gray-500">
-                <th class="py-2 px-3 text-left w-80">제목</th>
-                <th class="py-2 px-3 text-left">카테고리</th>
-                <th class="py-2 px-3 text-center">공개</th>
-                <th class="py-2 px-3 text-right">생성일</th>
-                <th class="py-2 px-3 text-right">마지막 수정일</th>
-                <th class="py-2 px-3 text-right"></th>
-              </thead>
-              <tbody>
-                <tr
+            <Table v-else :count="magazines.count">
+              <TableHead>
+                <TableH class="text-left">제목</TableH>
+                <TableH class="text-left">카테고리</TableH>
+                <TableH class="text-center">공개</TableH>
+                <TableH class="text-right">생성일</TableH>
+                <TableH class="text-right">마지막 수정일</TableH>
+                <TableH class="text-right"></TableH>
+              </TableHead>
+              <TableBody>
+                <TableBodyRow
                   v-for="magazine in magazines.rows"
                   :key="magazine.uuid"
-                  class="transition-colors border-b border-gray-200 text-sm hover:bg-gray-100"
                 >
-                  <td class="py-3 px-3 text-left font-semibold w-80">
+                  <TableD class="text-left font-semibold">
                     {{ magazine.title }}
-                  </td>
-                  <td class="py-3 px-3 text-left">{{ magazine.category }}</td>
-                  <td class="py-3 px-3 text-center">
+                  </TableD>
+                  <TableD class="text-left">{{ magazine.category }}</TableD>
+                  <TableD class="text-center">
                     <svg
                       v-if="magazine.is_published"
                       xmlns="http://www.w3.org/2000/svg"
@@ -85,38 +62,20 @@
                         clip-rule="evenodd"
                       />
                     </svg>
-                  </td>
-                  <td class="py-3 px-3 text-xs text-gray-500 text-right">
-                    {{
-                      $dayjs(magazine.created_at).format(
-                        "YYYY년 MM월 DD일 hh시 mm분 ss초"
-                      )
-                    }}
-                  </td>
-                  <td class="py-3 px-3 text-xs text-gray-500 text-right">
-                    {{
-                      $dayjs(magazine.updated_at).format(
-                        "YYYY년 MM월 DD일 hh시 mm분 ss초"
-                      )
-                    }}
-                  </td>
-                  <td class="py-3 px-3 text-right">
-                    <button
-                      class="transition-colors py-0.5 px-1.5 text-sm rounded-lg shadow-sm text-gray-800 border border-gray-400 bg-gray-50 hover:bg-gray-100"
-                      @click="OnEdit(magazine.uuid)"
-                    >
-                      수정
-                    </button>
-                    <button
-                      class="transition-colors py-0.5 px-1.5 text-sm rounded-lg shadow-sm border border-red-400 text-red-500 hover:bg-red-200"
-                      @click="OnRemove(magazine.uuid)"
-                    >
-                      삭제
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </TableD>
+                  <TableDDate class="text-right">{{
+                    magazine.created_at
+                  }}</TableDDate>
+                  <TableDDate class="text-right">{{
+                    magazine.updated_at
+                  }}</TableDDate>
+                  <TableD class="text-right">
+                    <TableEditButton @click="OnEdit(magazine.uuid)" />
+                    <TableDeleteButton @click="OnRemove(magazine.uuid)" />
+                  </TableD>
+                </TableBodyRow>
+              </TableBody>
+            </Table>
           </div>
         </div>
       </div>
