@@ -3,11 +3,11 @@
     <p v-if="count" class="text-gray-400 text-xs">
       총 {{ count }}개의 레코드를 찾았습니다.
     </p>
-    <table
-      class="mt-4 w-full table-auto shadow-sm border-l border-r border-gray-200 rounded-lg"
-    >
-      <slot />
-    </table>
+    <div class="mt-4 rounded-lg overflow-hidden shadow">
+      <table class="min-w-full divide-y divide-gray-200">
+        <slot />
+      </table>
+    </div>
   </div>
 </template>
 

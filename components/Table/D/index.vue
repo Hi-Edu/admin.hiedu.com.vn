@@ -1,3 +1,3 @@
 <template>
-  <td class="py-3 px-3 border-b border-gray-200"><slot /></td>
+  <td class="py-1 px-6"><slot /></td>
 </template>
