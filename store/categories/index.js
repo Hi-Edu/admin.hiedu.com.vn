@@ -6,10 +6,15 @@ const state = () => ({
 })
 
 const actions = {
-  async FetchCategories() {
+  async FetchCategories({ state }) {
     const {  } = await this.$axios({
       method: 'GET',
       url: `/v1/categories`
     })
+
+    // state.ages
+    // state.countries
+    // state.subjects
+    // state.cities
   }
 }
