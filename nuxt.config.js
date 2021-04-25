@@ -31,6 +31,7 @@ export default {
   plugins: [
     { src: '~/plugins/logger' },
     { src: '~/plugins/axios' },
+    { src: '~/plugins/element-ui' },
   ],
   modules: [
     '@nuxtjs/axios',
