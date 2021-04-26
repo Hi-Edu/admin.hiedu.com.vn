@@ -36,6 +36,18 @@
             </TableBodyRow>
           </TableBody>
         </Table>
+
+        <div class="text-center mt-6">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="academies.count"
+            :page-size="10"
+            :current-page="Number($route.query.page || 0)"
+            @current-change="OnPagination"
+          >
+          </el-pagination>
+        </div>
       </div>
     </main>
   </div>
@@ -51,8 +63,18 @@ export default {
       }
     };
   },
+  watch: {
+    "$route.query"() {
+      this.$fetch();
+    }
+  },
   async fetch() {
-    const { academies } = await this.$store.dispatch("academies/Fetch");
+    const { academies } = await this.$axios({
+      method: "GET",
+      url: `/v0/academies`,
+      params: this.$route.query
+    });
+
     this.academies.count = academies.count;
     this.academies.rows = academies.rows;
   },
@@ -82,6 +104,9 @@ export default {
         await this.$store.dispatch("academies/DeleteByUuid", uuid);
         this.$fetch();
       } catch (err) {}
+    },
+    OnPagination(page) {
+      this.$router.push({ query: { ...this.$route.query, page } });
     }
   }
 };

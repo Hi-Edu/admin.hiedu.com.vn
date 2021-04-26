@@ -26,7 +26,7 @@ export default {
   },
   env: process.env,
   router: {
-    middleware: ['me']
+    middleware: ['me', 'categories']
   },
   plugins: [
     { src: '~/plugins/logger' },
