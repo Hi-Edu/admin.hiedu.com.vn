@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{358:function(t,r,e){"use strict";e.r(r);var n=e(7),component=Object(n.a)({},(function(){var t=this,r=t.$createElement;return(t._self._c||r)("tr",{staticClass:"transition-colors border-b border-gray-200 text-sm hover:bg-gray-100"},[t._t("default")],2)}),[],!1,null,null,null);r.default=component.exports}}]);
